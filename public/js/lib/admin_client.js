@@ -81,13 +81,9 @@ $(function() {
             */
             $messages.append(
               $('<tr/>')
-                .append(
-                  $("<td id="+this._id+"/>").text(this.message)
-                ).append(
-                  $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>")
-                ).append(
-                  $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
-                )
+                .append( $("<td id="+this._id+"/>").text(this.message) )
+                .append( $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>") )
+                .append( $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>") )
               );
             });          
         } else {
@@ -101,12 +97,9 @@ $(function() {
             */
             $messages.prepend(
               $('<tr/>')
-                .append(
-                  $("<td id="+this._id+"/>").text(this.message)
-                ).append(
-                  $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>")
-                ).append(
-                  $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
+                .append( $("<td id="+this._id+"/>").text(this.message))
+                .append( $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>"))
+                .append( $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
                 )
               );
             });          
@@ -156,22 +149,15 @@ $(function() {
        )
      }
      
-     function mark_as(action, item) {
-       // .hide("slow");
-       id = $(item).attr("id");
-       tr =  $("<tr id='"+id+"'/>")
-         .append(
-           $("<td/>").text($(item).parent().prev().text())
-         )
-         .append(
-           $("<td/>").text(id)
-         )
-         .append(
-           $("<td class='status'/>").text(get_status(id, action))
-         )
-         .append(
-           $("<td class='options'/>").append(get_options(item))
-         );
+    function mark_as(action, item) {
+      // .hide("slow");
+      id = $(item).attr("id");
+      tr =  $("<tr id='"+id+"'/>")
+        .append( $("<td/>").text($(item).parent().prev().text()) )
+        .append( $("<td/>").text(id) )
+        .append( $("<td class='status'/>").text(get_status(id, action)) )
+        .append( $("<td class='options'/>").append(get_options(item))
+      );
       if (action=="spam") {
         target = "#spammed_messages";
       } else if (action=="published") {
