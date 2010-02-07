@@ -45,19 +45,35 @@ $(function() {
 
         var template = "<li>{{message}} <strong class='ago'>({{ago}})</strong> </li>";
 
-        // Show the new messages
-        $.each(r.messages, function(i, item) {
+        if ($('#messages').children().length == 0) {
+          // Show the new messages
+          $.each(r.messages, function(i, item) {
           
-          var view = {
-            ago: function(){
-              return $.timeago(new Date(item.time));
-            },
-            message: item.message
-          };
-          var html = Mustache.to_html(template, view);
+            var view = {
+              ago: function(){
+                return $.timeago(new Date(item.time));
+              },
+              message: item.message
+            };
+            var html = Mustache.to_html(template, view);
           
-          $messages.prepend(html);
-        });
+            $messages.append(html);
+          });
+        }else{
+          // Show the new messages
+          $.each(r.messages, function(i, item) {
+          
+            var view = {
+              ago: function(){
+                return $.timeago(new Date(item.time));
+              },
+              message: item.message
+            };
+            var html = Mustache.to_html(template, view);
+          
+            $messages.prepend(html);
+          });
+        }
 
         // Wait for PAUSE ms before re-connecting
         setTimeout(function() {
