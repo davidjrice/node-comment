@@ -14,16 +14,23 @@
 	<link rel="stylesheet" type="text/css" href="/css/grid.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
 	<link rel="stylesheet" type="text/css" href="/css/nav.css" media="screen" />
+	
+	<style type="text/css" media="screen">
+    body {margin: 0 auto; width: 80%;} 
+/*    table {width: 100%; margin: 0 auto;}
+    .half-table {width: 46%; margin-right: 10px; float: left;}
+*/   
+	</style>
 </head>
 <body>
   <h1>Admin</h1>
   <p>This will update live</p>
   <p id="status"></p>
   <p id="admin-notes"></p>
-  <table width="50%">
+  <table class="container_16">
     <thead>
       <tr>
-        <th>Message</th>
+        <th>Incoming Messages</th>
         <th width="90px">Publish it</th>
         <th width="90px">Spam it</th>
       </tr>
@@ -33,18 +40,35 @@
   </table>
   <p><a href="index.html">Back</a> to menu.</p>
   
-  <table width="50%">
-    <thead>
-      <tr>
-        <th>Message</th>
-        <!-- <th width="90px">_id</th>
-        <th width="90px">Status</th>
-        <th width="90px">Restore it</th> -->
-      </tr>
-    </thead>
-    <tbody  id="trashed_messages">
-    </tbody>
-  </table>
+  <div class="container_16">
+    <table class="half-table published grid_8" id="">
+      <thead>
+        <tr>
+          <th>Recently Published Messages</th>
+          <!-- <th width="90px">_id</th>
+          <th width="90px">Status</th>
+          <th width="90px">Restore it</th> -->
+        </tr>
+      </thead>
+      <tbody  id="published_messages">
+      </tbody>
+    </table>
+
+    <table class="half-table grid_8 last" id="">
+      <thead>
+        <tr>
+          <th>Recently Spammed Messages</th>
+          <!-- <th width="90px">_id</th>
+          <th width="90px">Status</th>
+          <th width="90px">Restore it</th> -->
+        </tr>
+      </thead>
+      <tbody  id="spammed_messages">
+      </tbody>
+    </table>
+  </div>
+  
+
 
 </body>
 </html>
