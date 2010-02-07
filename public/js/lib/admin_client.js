@@ -83,11 +83,9 @@ $(function() {
               $('<tr/>')
                 .append(
                   $("<td id="+this._id+"/>").text(this.message)
-                )
-                .append(
+                ).append(
                   $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>")
-                )
-                .append(
+                ).append(
                   $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
                 )
               );
@@ -105,25 +103,14 @@ $(function() {
               $('<tr/>')
                 .append(
                   $("<td id="+this._id+"/>").text(this.message)
-                )
-                .append(
+                ).append(
                   $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>")
-                )
-                .append(
+                ).append(
                   $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
                 )
               );
             });          
         }
-        
-              // .text(" mark as inappropriate"))
-              // .text(this.message + "  ").append(
-              //   $('<a href="#" class="inappropriateit"/>')
-              //   .text(" mark as inappropriate")
-              // ).append(" ").append(
-              //     $('<a href="#" class="spammit"/>')
-              //     .text(" mark as spam (block user)")
-              //   )
 
         // Wait for PAUSE ms before re-connecting
         setTimeout(function() {
@@ -141,14 +128,14 @@ $(function() {
      $(".spammit").livequery('click', function(){
        message = $(this).parent().prev().text();
        $("#admin-notes").text("Sending a 'spam' flag for the message: " + message);
-       send_to_trash(this, "spam");
+       mark_as("spam", this);
        return false
      });
 
      $(".publish").livequery('click', function(){
        message = $(this).parent().prev().text();
        $("#admin-notes").text("Publishing the message: " + message);
-       send_to_trash(this, "publish");
+       mark_as("published", this);
        return false
      });
 
@@ -169,7 +156,7 @@ $(function() {
        )
      }
      
-     function send_to_trash(item, action) {
+     function mark_as(action, item) {
        // .hide("slow");
        id = $(item).attr("id");
        tr =  $("<tr id='"+id+"'/>")
@@ -184,11 +171,16 @@ $(function() {
          )
          .append(
            $("<td class='options'/>").append(get_options(item))
-         )
-       $("#trashed_messages").append(
-         tr
-       );
-       $(item).parent().parent().hide("dissolve");
+         );
+      if (action=="spam") {
+        target = "#spammed_messages";
+      } else if (action=="published") {
+        target = "#published_messages";
+      }
+
+      $(target).append(tr);
+
+      $(item).parent().parent().hide("dissolve");
 
 
        // $("#trashed_messages").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
