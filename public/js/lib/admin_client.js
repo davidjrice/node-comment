@@ -107,7 +107,7 @@ $(function() {
                   $("<td id="+this._id+"/>").text(this.message)
                 )
                 .append(
-                  $("<td/>").prepend("<a href='#inappropriatize/"+this._id+"' id='"+this._id+"' class='inappropriateit'>inappropriate</a>")
+                  $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>")
                 )
                 .append(
                   $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
