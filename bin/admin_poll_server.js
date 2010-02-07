@@ -130,7 +130,12 @@ changeRequest.finish(function(res) {
         success: function(doc) {
           // Filter out the docs we care about
           // we could also use couch's filter docs this, but this is nice & simple
-          if (doc.type != 'message' || doc.status!="awaiting_response" ) {
+          if (doc.type != 'message') {
+            // TODO remove doc.show boolean...
+            return;
+          }
+          
+          if (doc.status != 'approved' && doc.status != 'awaiting_response') {
             // TODO remove doc.show boolean...
             return;
           }
@@ -153,7 +158,6 @@ changeRequest.finish(function(res) {
           if(found){
             
             // ELEMENT EXISTS ALREADY
-            
             var pos = null;
             messages.map(function(elem, i){
               if( elem._id == doc._id ){
@@ -162,12 +166,23 @@ changeRequest.finish(function(res) {
               }
             })
             
-            messages[pos] = doc;
-            
+            if(doc.status == "approved"){
+                puts("SPLICED")
+                // TODO this should remove approved comments from the messages array so they are not
+                // returned to the admin again.
+                messages.splice(pos,1);
+              //delete messages[pos];
+            }else{
+              messages[pos] = doc;
+            }
             
           } else {
-            // Add it to the list of messages
-            messages.push(doc);
+            if(doc.status == "approved"){
+              // do nothing
+            } else {
+                // Add it to the list of messages
+              messages.push(doc); 
+            }
           }
 
           // TODO does this message exist in messages[]
