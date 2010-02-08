@@ -24,6 +24,13 @@ $(function() {
       success: function() {
         var duration = (+new Date - start);
         $status.text('Message pushed to couch in '+duration+'ms');
+      },
+      error: function(XMLHttpRequest, textStatus, errorThrown) {
+        var response = XMLHttpRequest.responseText;
+        var start = response.indexOf('(');
+        var finish = response.indexOf(')');
+        var json = JSON.parse( response.substring(start+1,finish) );
+        $status.text(json['error']);
       }
     })
 
