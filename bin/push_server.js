@@ -42,7 +42,9 @@ http
         if (!request.url.query['message']) {
           return request.respond(400, {error: 'bad request, no ?message parameter'});
         }
-
+        
+        var ip = request['req']['connection']['remoteAddress'];
+        
         // Swear whitelist
         var message = request.url.query['message'];
         var essence = message.toLowerCase().replace(/[^\.\'a-zA-Z]/, '')
@@ -66,6 +68,7 @@ http
       		  relaxdb_class: "Comment",
       		  status: 'awaiting_response', //awaiting_response || spam || inappropriate || destroyed states
             show: true,
+            ip: ip
           }, {
             success: function() {
               request.respond(200, {ok: 'message stored'});
