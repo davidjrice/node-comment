@@ -43,7 +43,7 @@ $(function() {
 
         $status.text('Fetched '+r.comments.length+' comments, re-connect in '+PAUSE+' ms');
 
-        var template = "<li><abbr class='name'>{{name}}</abbr> - {{comment}} <abbr class='timeago' title='{{time}}'></strong> </li>";
+        var template = "<li><abbr class='name'>{{name}}</abbr> - {{comment}} <abbr class='timeago' title='{{time}}'>{{ago}}</strong> </li>";
 
         // Show the new comments
         for (var i = r.comments.length - 1; i >= 0; i--) {

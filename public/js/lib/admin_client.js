@@ -33,7 +33,7 @@ $(function() {
       dataType: 'jsonp',
       success: function(response) {
         // var duration = (+new Date - start);
-        $("#admin-notes").text('I WANT TO CHANGE THE TEXT IN THE ITEMS SPAM/THINGY');
+        $("#admin-notes").text('Comment Published!');
       },
       error:function (xhr, ajaxOptions, thrownError){
         alert(thrownError);
