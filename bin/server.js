@@ -79,7 +79,7 @@ http.createServer(
       ('/dashboard')
         ['GET'](function(respond){
           var view = {}
-          return Mustache.Mustache.to_html(admin_template, view);
+          return Mustache.to_html(admin_template, view);
         })
       ()
       ('/comments')

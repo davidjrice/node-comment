@@ -1,4 +1,10 @@
 /*
+Shameless port of a shameless port
+@defunkt => @janl => @aq => @tlrobinson
+ 
+See http://github.com/defunkt/mustache for more info.
+*/
+/*
   Shamless port of http://github.com/defunkt/mustache
   by Jan Lehnardt <jan@apache.org>, 
      Alexander Lang <alex@upstream-berlin.com>,
@@ -8,8 +14,9 @@
 
   See http://github.com/defunkt/mustache for more info.
 */
+
 var Mustache = function() {
-  var Renderer = exports.Renderer = function() {};
+  var Renderer = function() {};
 
   Renderer.prototype = {
     otag: "{{",
@@ -283,11 +290,12 @@ var Mustache = function() {
       if(send_fun) {
         renderer.send = send_fun;
       }
-      debug(inspect(renderer))
-      
       renderer.render(template, view, partials);
       return renderer.buffer.join("\n");
     }
   });
 }();
-exports.Mustache = Mustache;
+
+for (var name in Mustache)
+    if (Object.prototype.hasOwnProperty.call(Mustache, name))
+        exports[name] = Mustache[name];
