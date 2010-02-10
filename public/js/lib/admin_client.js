@@ -6,21 +6,21 @@ $(function() {
     since = -10,
 
     $status = $('#status'),
-    $messages = $('#messages'),
+    $comments = $('#comments'),
     updateUrl = [
       'http://',
       window.location.hostname,
       ':',
-      8013,
-      '/messages'
+      8012,
+      '/admin/comments/update'
     ].join('');
      
     pollUrl = [
       'http://',
       window.location.hostname,
       ':',
-      8014,
-      '/messages'
+      8012,
+      '/admin/comments'
     ].join('');
 
   function do_update(pId,pAction) {
@@ -29,7 +29,7 @@ $(function() {
     var start = +new Date;
     $.ajax({
       url: updateUrl,
-      data: {_id: id, action: action},
+      data: {id: id, action: action},
       dataType: 'jsonp',
       success: function(response) {
         // var duration = (+new Date - start);
@@ -68,43 +68,57 @@ $(function() {
         // Remember were we left off
         since = r.seq;
 
-        $status.text('Fetched '+r.messages.length+' messages, re-connect in '+PAUSE+' ms');
+        $status.text('Fetched '+r.comments.length+' comments, re-connect in '+PAUSE+' ms');
 
-        if ($('#messages').children().length == 0) {
-          // Show the new messages
-          $.each(r.messages, function() {
+        if ($('#comments').children().length == 0) {
+          // Show the new comments
+          $.each(r.comments, function() {
             /*
             This adds an LI element with simple text in. 
             Desire:
             * Add a link to approve/remove objects from the database live
             * In some manner make this unbreakable...(ha)
             */
-            $messages.append(
+            $comments.append(
               $('<tr/>')
-                .append( $("<td id="+this._id+"/>").text(this.message) )
-                .append( $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>") )
-                .append( $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>") )
+                .append(
+                  $("<td id="+this._id+"/>").text(this.text)
+                )
+                .append(
+                  $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish</a>")
+                )
               );
             });          
         } else {
-          // Show the new messages
-          $.each(r.messages, function() {
+          // Show the new comments
+          $.each(r.comments, function() {
             /*
             This adds an LI element with simple text in. 
             Desire:
             * Add a link to approve/remove objects from the database live
             * In some manner make this unbreakable...(ha)
             */
-            $messages.prepend(
+            $comments.prepend(
               $('<tr/>')
-                .append( $("<td id="+this._id+"/>").text(this.message))
-                .append( $("<td/>").prepend("<a href='#publish/"+this._id+"' id='"+this._id+"' class='publish'>publish...</a>"))
-                .append( $("<td/>").prepend("<a href='#spammize/"+this._id+"' id='"+this._id+"' class='spammit'>spam</a>")
+                .append(
+                  $("<td id="+this._id+"/>").text(this.text)
+                )
+                .append(
+                  $("<td/>").prepend("<a href='#inappropriatize/"+this._id+"' id='"+this._id+"' class='publish'>publish</a>")
                 )
               );
             });          
         }
-
+  
+        // .text(" mark as inappropriate"))
+        // .text(this.comment + "  ").append(
+        //   $('<a href="#" class="inappropriateit"/>')
+        //   .text(" mark as inappropriate")
+        // ).append(" ").append(
+        //     $('<a href="#" class="spammit"/>')
+        //     .text(" mark as spam (block user)")
+        //   )
+              
         // Wait for PAUSE ms before re-connecting
         setTimeout(function() {
           poll();
@@ -119,16 +133,16 @@ $(function() {
   // var $status = $("#status");
 
      $(".spammit").livequery('click', function(){
-       message = $(this).parent().prev().text();
-       $("#admin-notes").text("Sending a 'spam' flag for the message: " + message);
-       mark_as("spam", this);
+       comment = $(this).parent().prev().text();
+       $("#admin-notes").text("Sending a 'spam' flag for the comment: " + comment);
+       send_to_trash(this, "spam");
        return false
      });
 
      $(".publish").livequery('click', function(){
-       message = $(this).parent().prev().text();
-       $("#admin-notes").text("Publishing the message: " + message);
-       mark_as("published", this);
+       comment = $(this).parent().prev().text();
+       $("#admin-notes").text("Publishing the comment: " + comment);
+       send_to_trash(this, "publish");
        return false
      });
 
@@ -141,35 +155,32 @@ $(function() {
        }
      }
 
-     function get_options(item) {
-       // return 123;
-       return ($("<span class='text-divider'/>").text(" | "))
-         .prepend($("<a href='#restore' />").text("Restore"))
-         .append($("<a href='#ban' />").text("Ban user")
-       )
-     }
+     // function get_options(item) {
+     //   // return 123;
+     //   return ($("<span class='text-divider'/>").text(" | "))
+     //     .prepend($("<a href='#restore' />").text("Restore"))
+     //     .append($("<a href='#ban' />").text("Ban user")
+     //   )
+     // }
      
-    function mark_as(action, item) {
-      // .hide("slow");
-      id = $(item).attr("id");
-      tr =  $("<tr id='"+id+"'/>")
-        .append( $("<td/>").text($(item).parent().prev().text()) )
-        .append( $("<td/>").text(id) )
-        .append( $("<td class='status'/>").text(get_status(id, action)) )
-        .append( $("<td class='options'/>").append(get_options(item))
-      );
-      if (action=="spam") {
-        target = "#spammed_messages";
-      } else if (action=="published") {
-        target = "#published_messages";
-      }
-
-      $(target).append(tr);
-
-      $(item).parent().parent().hide("dissolve");
-
-
-       // $("#trashed_messages").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
+     function send_to_trash(item, action) {
+       // .hide("slow");
+       id = $(item).attr("id");
+       tr =  $("<tr id='"+id+"'/>")
+         .append(
+           $("<td/>").text($(item).parent().prev().text())
+         )
+         .append(
+           $("<td/>").text(id)
+         )
+         .append(
+           $("<td class='status'/>").text(get_status(id, action))
+         )
+       $("#trashed_comments").append(
+         tr
+       );
+       $(item).parent().parent().hide("dissolve");
+       // $("#trashed_comments").append($(item).parent().parent().hide("slow"));//$(item)).reveal("slow");
      }
 
 });

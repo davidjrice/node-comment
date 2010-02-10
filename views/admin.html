@@ -1,0 +1,52 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"> 
+<html lang="en"> 
+<head> 
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+  <title>PoC Admin</title> 
+
+  <script src="/js/dep/jquery.js" type="text/javascript"></script>
+  <script src="/js/dep/jquery.jsonp.js" type="text/javascript"></script>
+  <script src="/js/lib/admin_client.js" type="text/javascript"></script>
+  <script src="/js/dep/jquery.livequery.js" type="text/javascript" charset="utf-8"></script>
+  
+  <link rel="stylesheet" type="text/css" href="/css/reset.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/css/text.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/css/grid.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/css/layout.css" media="screen" />
+	<link rel="stylesheet" type="text/css" href="/css/nav.css" media="screen" />
+	
+	<style type="text/css" media="screen">
+    body {margin: 0 auto; width: 80%;}
+	</style>
+</head>
+<body>
+  <div class="container_16">
+    <h1>Admin</h1>
+    <p>{{text}}</p>
+    <p id="status"></p>
+    <p id="admin-notes"></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Unpublished</th>
+          <th>Publish it</th>
+        </tr>
+      </thead>
+      <tbody  id="comments">
+      </tbody>
+    </table>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Recently Published</th>
+          <th>&nbsp;</th>
+        </tr>
+      </thead>
+      <tbody  id="trashed_comments">
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+

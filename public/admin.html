@@ -23,53 +23,35 @@
 	</style>
 </head>
 <body>
-  <h1>Admin</h1>
-  <p>This will update live</p>
-  <p id="status"></p>
-  <p id="admin-notes"></p>
-  <table class="container_16">
-    <thead>
-      <tr>
-        <th>Incoming Messages</th>
-        <th width="90px">Publish it</th>
-        <th width="90px">Spam it</th>
-      </tr>
-    </thead>
-    <tbody  id="messages">
-    </tbody>
-  </table>
-  <p><a href="index.html">Back</a> to menu.</p>
-  
   <div class="container_16">
-    <table class="half-table published grid_8" id="">
+    <h1>Admin</h1>
+    <p id="status"></p>
+    <p id="admin-notes"></p>
+    <table>
       <thead>
         <tr>
-          <th>Recently Published Messages</th>
-          <!-- <th width="90px">_id</th>
-          <th width="90px">Status</th>
-          <th width="90px">Restore it</th> -->
+          <th>Unpublished</th>
+          <th>Publish it</th>
         </tr>
       </thead>
-      <tbody  id="published_messages">
+      <tbody  id="comments">
       </tbody>
     </table>
 
-    <table class="half-table grid_8 last" id="">
+    <table>
       <thead>
         <tr>
-          <th>Recently Spammed Messages</th>
+          <th>Recently Published</th>
+          <th>&nbsp;</th>
           <!-- <th width="90px">_id</th>
           <th width="90px">Status</th>
           <th width="90px">Restore it</th> -->
         </tr>
       </thead>
-      <tbody  id="spammed_messages">
+      <tbody  id="trashed_comments">
       </tbody>
     </table>
   </div>
-  
-
-
 </body>
 </html>
 

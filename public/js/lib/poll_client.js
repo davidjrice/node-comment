@@ -6,13 +6,13 @@ $(function() {
     since = -10,
 
     $status = $('#status'),
-    $messages = $('#messages'),
+    $comments = $('#comments'),
     pollUrl = [
       'http://',
       window.location.hostname,
       ':',
       8012, // @todo, read from config/default.js
-      '/messages'
+      '/comments'
     ].join('');
 
   function poll() {
@@ -41,38 +41,24 @@ $(function() {
         // Remember were we left off
         since = r.seq;
 
-        $status.text('Fetched '+r.messages.length+' messages, re-connect in '+PAUSE+' ms');
+        $status.text('Fetched '+r.comments.length+' comments, re-connect in '+PAUSE+' ms');
 
-        var template = "<li>{{message}} <strong class='ago'>({{ago}})</strong> </li>";
+        var template = "<li>{{comment}} <abbr class='timeago' title='{{time}}'></strong> </li>";
 
-        if ($('#messages').children().length == 0) {
-          // Show the new messages
-          $.each(r.messages, function(i, item) {
+        // Show the new comments
+        for (var i = r.comments.length - 1; i >= 0; i--) {
+          var item = r.comments[i];
+          var view = {
+            ago: function(){
+              return $.timeago(new Date(item.time));
+            },
+            comment: item.text,
+            time: new Date(item.time)
+            
+          };
+          var html = Mustache.to_html(template, view);
           
-            var view = {
-              ago: function(){
-                return $.timeago(new Date(item.time));
-              },
-              message: item.message
-            };
-            var html = Mustache.to_html(template, view);
-          
-            $messages.append(html);
-          });
-        }else{
-          // Show the new messages
-          $.each(r.messages, function(i, item) {
-          
-            var view = {
-              ago: function(){
-                return $.timeago(new Date(item.time));
-              },
-              message: item.message
-            };
-            var html = Mustache.to_html(template, view);
-          
-            $messages.prepend(html);
-          });
+          $comments.prepend(html);
         }
 
         // Wait for PAUSE ms before re-connecting
