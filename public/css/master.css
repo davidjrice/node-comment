@@ -24,3 +24,11 @@ h1{
 .timeago{
   color: #555;
 }
+
+form{
+  color:#000;
+}
+
+form input, form textarea{
+  margin-right:1em;
+}

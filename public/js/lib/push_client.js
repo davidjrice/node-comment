@@ -2,6 +2,7 @@ $(function() {
   var
     $status = $('#pushstatus'),
     $comment = $('#comment'),
+    $name = $('#name')
     pushUrl = [
       'http://',
       window.location.hostname,
@@ -12,14 +13,15 @@ $(function() {
 
   $('form').submit(function() {
     var val = $comment.val();
-
+    var name = $name.val();
+    
     $status.text('Sending comment ...');
     $comment.val('');
-
+    
     var start = +new Date;
     $.ajax({
       url: pushUrl,
-      data: {text: val},
+      data: {text: val, name: name},
       dataType: 'jsonp',
       success: function() {
         var duration = (+new Date - start);

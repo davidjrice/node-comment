@@ -36,7 +36,11 @@ http.createServer(
         return deliverComments.call(this, respond, 'approved');
       })
       ('/add', function(respond) {
+        
         var text = this.url.query && this.url.query.text;
+        var name = this.url.query && this.url.query.name;
+        
+        
         if (!text) {
           return {
             status: 400,
@@ -48,8 +52,8 @@ http.createServer(
           .saveDoc({
             type: 'Comment',
             text: text,
+            name: name,
             time: +new Date,
-            // status: 'approved',
             status: 'pending',
           })
           .addCallback(function(r) {
